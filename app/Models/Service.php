@@ -8,8 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class Service extends Model
 {
     use HasFactory;
-    public function etablissements()
+    protected $fillable = ['nom', 'responsable_id', 'nombre_employes'];
+    public function Etablissement()
     {
         return $this->belongsToMany(Etablissement::class, 'etablissement_service', 'service_id', 'etablissement_id');
+    }
+    public function Personne()
+    {
+        return $this->hasMany(Personne::class);
     }
 }

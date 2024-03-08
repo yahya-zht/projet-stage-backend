@@ -1,0 +1,9 @@
+1- composer install
+2- changer fichier =>.env.example =>.env
+3- Créer une base de donnée dans MySQL=>Create Database "Nom Database"
+4- Ajouter le nom de la base de donnée dans fichier => .env =>DB_DATABASE="Nom Database"
+5- php artisan key:generate
+5- php artisan storage:link
+6- php artisan migrate
+7- Dans MySQL =>SQl =>ALTER TABLE services ADD FOREIGN KEY(responsable_id) REFERENCES personnes(id)
+8- php artisan db:seed  

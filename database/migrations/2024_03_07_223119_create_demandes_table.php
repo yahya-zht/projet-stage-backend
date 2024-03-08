@@ -16,8 +16,9 @@ return new class extends Migration
             $table->date('date_demande');
             $table->date('date_debut');
             $table->date('date_fin');
+            $table->string('état');
             $table->unsignedBigInteger('personne_id');
-            $table->unsignedBigInteger('conge_id');
+            $table->unsignedBigInteger('conge_id')->nullable();
             $table->foreign('personne_id')->references('id')->on('personnes')->onDelete('cascade');
             $table->foreign('conge_id')->references('id')->on('conges')->onDelete('cascade');
             $table->timestamps();
