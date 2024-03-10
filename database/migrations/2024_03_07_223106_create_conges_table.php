@@ -17,6 +17,9 @@ return new class extends Migration
             $table->date('date_fin');
             $table->integer('duree');
             $table->string('type');
+            $table->unsignedBigInteger('personne_id')->nullable();
+            $table->foreign('personne_id')->references('id')->on('personnes')->onDelete('set null');
+
             $table->timestamps();
         });
     }

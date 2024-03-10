@@ -11,16 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('absences', function (Blueprint $table) {
+        Schema::create('demande_conges', function (Blueprint $table) {
             $table->id();
-            $table->date('date_debut');
-            $table->date('date_fin');
-            $table->string('type');
-            $table->integer('duree');
-            // $table->unsignedBigInteger('certificatMedical_id');
-            // $table->foreign('certificatMedical_id')->references('id')->on('certificat_medical')->onDelete('cascade');
+            $table->date('dataDemande');
+            $table->date('dataDebut');
+            $table->date('dataFin');
+            $table->string('état');
             $table->unsignedBigInteger('personne_id');
+            $table->unsignedBigInteger('conge_id')->nullable();
             $table->foreign('personne_id')->references('id')->on('personnes')->onDelete('cascade');
+            $table->foreign('conge_id')->references('id')->on('conges')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('absences');
+        Schema::dropIfExists('demande_conges');
     }
 };

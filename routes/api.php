@@ -2,7 +2,8 @@
 
 use App\Http\Controllers\API\AbsenceController;
 use App\Http\Controllers\API\CongeController;
-use App\Http\Controllers\API\DemandeController;
+use App\Http\Controllers\API\DemandeAbsenceController;
+use App\Http\Controllers\API\DemandeCongeController;
 use App\Http\Controllers\API\EchelleController;
 use App\Http\Controllers\API\EtablissementController;
 use App\Http\Controllers\API\FonctionController;
@@ -29,7 +30,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::resource('personne', PersonneController::class);
 Route::resource('absence', AbsenceController::class);
 Route::resource('conge', CongeController::class);
-Route::resource('demande', DemandeController::class);
+Route::resource('demande/Absence', DemandeAbsenceController::class);
+Route::resource('demande/Conge', DemandeCongeController::class);
 Route::resource('echelle', EchelleController::class);
 Route::resource('etablissement', EtablissementController::class);
 Route::resource('fonction', FonctionController::class);

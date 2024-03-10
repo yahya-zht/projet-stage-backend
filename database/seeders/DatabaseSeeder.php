@@ -5,8 +5,10 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 use App\Models\Absence;
+use App\Models\CertificatMedical;
 use App\Models\Conge;
-use App\Models\Demande;
+use App\Models\DemandeAbsence;
+use App\Models\DemandeConge;
 use App\Models\Echelle;
 use App\Models\Etablissement;
 use App\Models\EtablissementService;
@@ -32,8 +34,9 @@ class DatabaseSeeder extends Seeder
         Etablissement::factory(20)->create();
         Absence::factory(20)->create();
         Conge::factory(20)->create();
-        Demande::factory(20)->create();
-        Demande::factory(20)->create();
+        DemandeAbsence::factory(20)->create();
+        DemandeConge::factory(20)->create();
+        CertificatMedical::factory(20)->create();
         EtablissementService::factory(20)->create();
 
 

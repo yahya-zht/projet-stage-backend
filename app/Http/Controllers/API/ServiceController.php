@@ -22,30 +22,44 @@ class ServiceController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            "nom" => "required",
+            "responsable_id" => "required",
+            "nombre_employes" => "required",
+        ]);
+        $Service = Service::create($request->all());
+        return response()->json(["Service" => $Service, "Message" => "Successfully created"]);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Service $service)
+    public function show(Service $Service)
     {
-        //
+        return response()->json(["Service" => $Service]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Service $service)
+    public function update(Request $request, Service $Service)
     {
-        //
+        $request->validate([
+            "nom" => "required",
+            "responsable_id" => "required",
+            "nombre_employes" => "required",
+        ]);
+        $Service->fill($request->all());
+        $Service->update();
+        return response()->json(["Service" => $Service, "Message" => "Successfully updated"]);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Service $service)
+    public function destroy(Service $Service)
     {
-        //
+        $Service->delete();
+        return response()->json(["Message" => "Successfully deleted"]);
     }
 }

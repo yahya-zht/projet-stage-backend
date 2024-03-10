@@ -6,7 +6,10 @@ use App\Models\Conge;
 use App\Models\Personne;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class DemandeFactory extends Factory
+/**
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\DemandeConge>
+ */
+class DemandeCongeFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -19,9 +22,9 @@ class DemandeFactory extends Factory
         $congeIds = Conge::pluck('id')->toArray();
 
         return [
-            'date_demande' => $this->faker->date(),
-            'date_debut' => $this->faker->date(),
-            'date_fin' => $this->faker->date(),
+            'dataDemande' => $this->faker->date(),
+            'dataDebut' => $this->faker->date(),
+            'dataFin' => $this->faker->date(),
             'état' => $this->faker->randomElement(['acceptable', 'REJETÉ', 'en attendant']),
             'personne_id' => $this->faker->randomElement($personneIds),
             'conge_id' => $this->faker->randomElement($congeIds),

@@ -11,16 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('demandes', function (Blueprint $table) {
+        Schema::create('demande_absences', function (Blueprint $table) {
             $table->id();
-            $table->date('date_demande');
-            $table->date('date_debut');
-            $table->date('date_fin');
-            $table->string('état');
+            $table->date("dataDemande");
+            $table->date("dataDebut");
+            $table->date("dataFin");
+            $table->string("état");
+            $table->unsignedBigInteger('absence_id')->nullable();
             $table->unsignedBigInteger('personne_id');
-            $table->unsignedBigInteger('conge_id')->nullable();
+            $table->foreign('absence_id')->references('id')->on('absences')->onDelete('cascade');
             $table->foreign('personne_id')->references('id')->on('personnes')->onDelete('cascade');
-            $table->foreign('conge_id')->references('id')->on('conges')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('demandes');
+        Schema::dropIfExists('demande_absences');
     }
 };

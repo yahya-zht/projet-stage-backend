@@ -8,9 +8,17 @@ use Illuminate\Database\Eloquent\Model;
 class Absence extends Model
 {
     use HasFactory;
-    protected $fillable = ['date_debut', 'date_fin', 'type', 'duree', 'personne_id'];
+    protected $fillable = ['date_debut', 'date_fin', 'type', 'duree', 'personne_id', 'certificatMedical_id'];
     public function Personne()
     {
         return $this->belongsTo(Personne::class);
+    }
+    public function DemandeAbsence()
+    {
+        return $this->belongsTo(DemandeAbsence::class);
+    }
+    public function CertificatMedical()
+    {
+        return $this->belongsTo(CertificatMedical::class);
     }
 }

@@ -2,11 +2,14 @@
 
 namespace Database\Factories;
 
-use App\Models\Conge;
+use App\Models\Absence;
 use App\Models\Personne;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class DemandeFactory extends Factory
+/**
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\CertificatMedical>
+ */
+class DemandeAbsenceFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -16,15 +19,15 @@ class DemandeFactory extends Factory
     public function definition(): array
     {
         $personneIds = Personne::pluck('id')->toArray();
-        $congeIds = Conge::pluck('id')->toArray();
+        $absenceIds = Absence::pluck('id')->toArray();
 
         return [
-            'date_demande' => $this->faker->date(),
-            'date_debut' => $this->faker->date(),
-            'date_fin' => $this->faker->date(),
+            'dataDemande' => $this->faker->date(),
+            'dataDebut' => $this->faker->date(),
+            'dataFin' => $this->faker->date(),
             'état' => $this->faker->randomElement(['acceptable', 'REJETÉ', 'en attendant']),
+            'absence_id' => $this->faker->randomElement($absenceIds),
             'personne_id' => $this->faker->randomElement($personneIds),
-            'conge_id' => $this->faker->randomElement($congeIds),
         ];
     }
 }

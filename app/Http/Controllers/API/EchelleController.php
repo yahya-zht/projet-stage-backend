@@ -22,30 +22,42 @@ class EchelleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'libelle' => 'required',
+            'niveau' => 'required',
+        ]);
+        $Echelle = Echelle::create($request->all());
+        return response()->json(["Echelle" => $Echelle, "Message" => "Successfully created"]);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Echelle $echelle)
+    public function show(Echelle $Echelle)
     {
-        //
+        return response()->json(["Echelle" => $Echelle]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Echelle $echelle)
+    public function update(Request $request, Echelle $Echelle)
     {
-        //
+        $request->validate([
+            'libelle' => 'required',
+            'niveau' => 'required',
+        ]);
+        $Echelle->fill($request->all());
+        $Echelle->update();
+        return response()->json(["Echelle" => $Echelle, "Message" => "Successfully updated"]);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Echelle $echelle)
+    public function destroy(Echelle $Echelle)
     {
-        //
+        $Echelle->delete();
+        return response()->json(["Message" => "Successfully deleted"]);
     }
 }
