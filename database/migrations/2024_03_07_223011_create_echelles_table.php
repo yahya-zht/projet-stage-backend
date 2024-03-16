@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('echelles', function (Blueprint $table) {
             $table->id();
-            $table->string('libelle');
+            $table->string('libelle')->unique();
             $table->integer('niveau');
             $table->timestamps();
         });

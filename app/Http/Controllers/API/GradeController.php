@@ -13,8 +13,8 @@ class GradeController extends Controller
      */
     public function index()
     {
-        $Grades = Grade::all();
-        return response()->json(["Grades" => $Grades]);
+        $Grade = Grade::all();
+        return response()->json(["AllGrade" => $Grade]);
     }
 
     /**
@@ -27,7 +27,7 @@ class GradeController extends Controller
             'salaire' => 'required',
         ]);
         $Grade = Grade::create($request->all());
-        return response()->json([$Grade => "Grade", 'message' => 'Grade created successfully.']);
+        return response()->json(["Grade" => $Grade, 'message' => 'Grade created successfully.']);
     }
 
     /**

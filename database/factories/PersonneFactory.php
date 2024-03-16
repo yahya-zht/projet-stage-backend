@@ -50,7 +50,7 @@ class PersonneFactory extends Factory
         return [
             'nom' => $faker->lastName,
             'prenom' => $faker->firstName,
-            'CIN' => $faker->numerify('########'),
+            'CIN' => $faker->numerify('#####'),
             'date_naissance' => $faker->date(),
             'adresse' => $faker->address,
             'telephone' => $faker->phoneNumber,
