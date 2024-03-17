@@ -13,7 +13,7 @@ class EtablissementController extends Controller
      */
     public function index()
     {
-        $Etablissements = Etablissement::all();
+        $Etablissements = Etablissement::with('Personne')->get();
         return response()->json(["Etablissements" => $Etablissements]);
     }
 

@@ -17,4 +17,8 @@ class Service extends Model
     {
         return $this->hasMany(Personne::class);
     }
+    public function Responsable()
+    {
+        return $this->belongsTo(Personne::class, 'responsable_id');
+    }
 }

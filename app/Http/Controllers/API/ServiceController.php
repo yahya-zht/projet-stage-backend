@@ -13,7 +13,7 @@ class ServiceController extends Controller
      */
     public function index()
     {
-        $services = Service::all();
+        $services = Service::with('Responsable')->get();
         return response()->json(["Services" => $services]);
     }
 

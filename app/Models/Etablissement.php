@@ -11,7 +11,7 @@ class Etablissement extends Model
     protected $fillable = ['nom', 'adresse', 'directeur_id'];
     public function Personne()
     {
-        return $this->belongsTo(Personne::class);
+        return $this->belongsTo(Personne::class, 'directeur_id');
     }
     public function Service()
     {
