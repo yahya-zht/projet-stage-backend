@@ -17,7 +17,7 @@ class FonctionFactory extends Factory
     public function definition(): array
     {
         return [
-            'libelle' => $this->faker->word,
+            'libelle' => $this->faker->unique()->word,
         ];
     }
 }

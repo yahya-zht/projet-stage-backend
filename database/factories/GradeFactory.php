@@ -17,7 +17,7 @@ class GradeFactory extends Factory
     public function definition(): array
     {
         return [
-            'libelle' => $this->faker->word,
+            'libelle' => $this->faker->unique()->word,
             'salaire' => $this->faker->randomFloat(2, 1000, 10000),
         ];
     }

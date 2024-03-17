@@ -17,7 +17,7 @@ class EchelleFactory extends Factory
     public function definition(): array
     {
         return [
-            'libelle' => $this->faker->word,
+            'libelle' => $this->faker->unique()->word,
             'niveau' => $this->faker->numberBetween(1, 10),
         ];
     }
