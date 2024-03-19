@@ -19,7 +19,9 @@ return new class extends Migration
             $table->integer('duree');
             // $table->unsignedBigInteger('certificatMedical_id');
             // $table->foreign('certificatMedical_id')->references('id')->on('certificat_medical')->onDelete('cascade');
+            $table->unsignedBigInteger('demande_absence_id')->nullable();
             $table->unsignedBigInteger('personne_id');
+            $table->foreign('demande_absence_id')->references('id')->on('demande_absences')->onDelete('cascade');
             $table->foreign('personne_id')->references('id')->on('personnes')->onDelete('cascade');
             $table->timestamps();
         });

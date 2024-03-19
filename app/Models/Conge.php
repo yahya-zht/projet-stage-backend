@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Conge extends Model
 {
     use HasFactory;
-    protected $fillable = ['date_debut', 'date_fin', 'duree', 'type', 'personne_id'];
+    protected $fillable = ['date_debut', 'date_fin', 'duree', 'type', 'personne_id', 'demande_conge_id'];
     public function Personne()
     {
         return $this->belongsTo(Personne::class);

@@ -32,10 +32,10 @@ class DatabaseSeeder extends Seeder
         Service::factory(20)->create();
         Personne::factory(20)->create();
         Etablissement::factory(20)->create();
-        Absence::factory(20)->create();
-        Conge::factory(20)->create();
         DemandeAbsence::factory(20)->create();
+        Absence::factory(20)->create();
         DemandeConge::factory(20)->create();
+        Conge::factory(20)->create();
         CertificatMedical::factory(20)->create();
         EtablissementService::factory(20)->create();
 

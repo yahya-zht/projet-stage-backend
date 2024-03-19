@@ -18,8 +18,9 @@ return new class extends Migration
             $table->integer('duree');
             $table->string('type');
             $table->unsignedBigInteger('personne_id')->nullable();
+            $table->unsignedBigInteger('demande_conge_id')->nullable();
             $table->foreign('personne_id')->references('id')->on('personnes')->onDelete('set null');
-
+            $table->foreign('demande_conge_id')->references('id')->on('demande_conges')->onDelete('cascade');
             $table->timestamps();
         });
     }

@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\DemandeConge;
 use App\Models\Personne;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -19,6 +20,7 @@ class CongeFactory extends Factory
     {
         $PersonneIds = Personne::pluck('id')->toArray();
         $randomPersonneId = $this->faker->randomElement($PersonneIds);
+        $demande_congeId = DemandeConge::pluck('id')->toArray();
         return [
             'date_debut' => $this->faker->date(),
             'date_fin' => $this->faker->date(),
@@ -27,7 +29,8 @@ class CongeFactory extends Factory
                 'Congé', 'Congé Maladie', 'Congé Maternité', 'Congé sans solde', 'Congé de paternité',
                 'Congé de formation', 'Congé sabbatique', 'Congé pour mariage'
             ]),
-            'personne_id' => $randomPersonneId
+            'personne_id' => $randomPersonneId,
+            'demande_conge_id' => $this->faker->randomElement($demande_congeId),
         ];
     }
 }
