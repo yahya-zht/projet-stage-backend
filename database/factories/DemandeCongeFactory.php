@@ -20,9 +20,9 @@ class DemandeCongeFactory extends Factory
         $personneIds = Personne::pluck('id')->toArray();
 
         return [
-            'dataDemande' => $this->faker->date(),
-            'dataDebut' => $this->faker->date(),
-            'dataFin' => $this->faker->date(),
+            'dateDemande' => $this->faker->date(),
+            'dateDebut' => $this->faker->date(),
+            'dateFin' => $this->faker->date(),
             'état' => $this->faker->randomElement(['Acceptable', 'REJETÉ', 'En Attendant']),
             'personne_id' => $this->faker->randomElement($personneIds),
 

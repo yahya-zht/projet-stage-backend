@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('demande_conges', function (Blueprint $table) {
             $table->id();
-            $table->date('dataDemande');
-            $table->date('dataDebut');
-            $table->date('dataFin');
+            $table->date('dateDemande');
+            $table->date('dateDebut');
+            $table->date('dateFin');
             $table->string('état')->default('En Attendant');
             $table->unsignedBigInteger('personne_id');
             $table->foreign('personne_id')->references('id')->on('personnes')->onDelete('cascade');
