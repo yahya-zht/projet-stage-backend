@@ -24,12 +24,10 @@ class DemandeCongeController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            "dataDemande" => "required",
-            "dataDebut" => "required",
-            "dataFin" => "required",
-            "état" => "required",
+            "dateDemande" => "required",
+            "dateDebut" => "required",
+            "dateFin" => "required",
             "personne_id" => "required",
-            "conge_id" => "required"
         ]);
         $DemandeConge = DemandeConge::create($request->all());
         return response()->json(["DemandeConge" => $DemandeConge, "message" => "Successfully created"]);

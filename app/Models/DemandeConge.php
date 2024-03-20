@@ -9,7 +9,7 @@ class DemandeConge extends Model
 {
     use HasFactory;
     use HasFactory;
-    protected $fillable = ['dataDemande', 'dataDebut', 'dataFin', 'état', 'personne_id'];
+    protected $fillable = ['dateDemande', 'dateDebut', 'dateFin', 'état', 'personne_id'];
     public function Conge()
     {
         return $this->belongsTo(Conge::class);
