@@ -24,7 +24,7 @@ class DemandeAbsenceFactory extends Factory
             'dataDemande' => $this->faker->date(),
             'dataDebut' => $this->faker->date(),
             'dataFin' => $this->faker->date(),
-            'état' => $this->faker->randomElement(['acceptable', 'REJETÉ', 'en attendant']),
+            'état' => $this->faker->randomElement(['Acceptable', 'REJETÉ', 'En Attendant']),
             'personne_id' => $this->faker->randomElement($personneIds),
         ];
     }

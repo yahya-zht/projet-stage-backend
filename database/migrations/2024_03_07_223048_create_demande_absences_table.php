@@ -16,7 +16,7 @@ return new class extends Migration
             $table->date("dataDemande");
             $table->date("dataDebut");
             $table->date("dataFin");
-            $table->string("état");
+            $table->string("état")->default('En Attendant');
             $table->unsignedBigInteger('personne_id');
             $table->foreign('personne_id')->references('id')->on('personnes')->onDelete('cascade');
             $table->timestamps();
