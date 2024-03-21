@@ -40,4 +40,7 @@ Route::resource('grade', GradeController::class);
 Route::resource('service', ServiceController::class);
 Route::get('admin/demande/Conge', [DemandeCongeController::class, 'ListDemandeCongeAdmin']);
 Route::post('conge/create/{id}', [CongeController::class, 'CreateConge']);
-Route::post('demande/reject/{id}', [DemandeCongeController::class, 'DemandeReject']);
+Route::post('demande/conge/reject/{id}', [DemandeCongeController::class, 'DemandeReject']);
+Route::get('admin/demande/Absence', [DemandeAbsenceController::class, 'ListDemandeAbsenceAdmin']);
+Route::post('absence/create/{id}', [AbsenceController::class, 'CreateAbsence']);
+Route::post('demande/absence/reject/{id}', [DemandeAbsenceController::class, 'DemandeReject']);

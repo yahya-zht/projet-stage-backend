@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\Absence;
+use App\Models\DemandeAbsence;
 use Illuminate\Http\Request;
 
 class AbsenceController extends Controller
@@ -11,7 +12,8 @@ class AbsenceController extends Controller
 
     public function index()
     {
-        $Absences = Absence::all();
+        $Absences =
+            Absence::with('personne')->get();
         return response()->json(["Absences" => $Absences]);
     }
 
@@ -63,5 +65,20 @@ class AbsenceController extends Controller
     {
         $Absence->delete();
         return response()->json(["Message" => "Successfully deleted"]);
+    }
+    public function CreateAbsence(string $id)
+    {
+        $DemandeAbsence = DemandeAbsence::find($id);
+        $Absence = new Absence();
+        $Absence->date_debut = $DemandeAbsence->dateDebut;
+        $Absence->date_fin = $DemandeAbsence->dateFin;
+        $Absence->duree = $DemandeAbsence->duree;
+        $Absence->type = $DemandeAbsence->type;
+        $Absence->personne_id = $DemandeAbsence->personne_id;
+        $Absence->demande_absence_id = $DemandeAbsence->id;
+        $Absence->save();
+        $DemandeAbsence->état = "Acceptable";
+        $DemandeAbsence->update();
+        return response()->json(["Absence" => $Absence, "Message" => "Successfully created & updated état Demande"]);
     }
 }

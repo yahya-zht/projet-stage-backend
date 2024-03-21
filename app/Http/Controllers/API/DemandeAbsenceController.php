@@ -13,7 +13,8 @@ class DemandeAbsenceController extends Controller
      */
     public function index()
     {
-        $DemandeAbsence = DemandeAbsence::all();
+        $DemandeAbsence =
+            DemandeAbsence::with('personne')->get();
         return response()->json(["DemandeAbsence" => $DemandeAbsence]);
     }
 
@@ -23,9 +24,9 @@ class DemandeAbsenceController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'dataDemande' => 'required',
-            'dataDebut' => 'required',
-            'dataFin' => 'required',
+            'dateDemande' => 'required',
+            'dateDebut' => 'required',
+            'dateFin' => 'required',
             "type" => "required",
             "duree" => "required",
             'personne_id' => 'required',
@@ -67,5 +68,20 @@ class DemandeAbsenceController extends Controller
     {
         $DemandeAbsence->delete();
         return response()->json(["message" => "Deleted successfully"]);
+    }
+    public function ListDemandeAbsenceAdmin()
+    {
+        $demandesEnAttente = DemandeAbsence::where('état', 'En Attendant')
+            ->with('personne')
+            ->get();
+        return response()->json(["demandesEnAttente" => $demandesEnAttente]);
+    }
+
+    public function DemandeReject(string $id)
+    {
+        $DemandeAbsence = DemandeAbsence::find($id);
+        $DemandeAbsence->état = "REJETÉ";
+        $DemandeAbsence->update();
+        return response()->json(["DemandeAbsence" => $DemandeAbsence, "message" => "Successfully updated"]);
     }
 }

@@ -14,7 +14,7 @@ class CongeController extends Controller
      */
     public function index()
     {
-        $Conges = Conge::all();
+        $Conges = Conge::with('personne')->get();
         return response()->json(["Conges" => $Conges]);
     }
 
