@@ -13,6 +13,6 @@ class CertificatMedical extends Model
     protected $fillable = ['dateDebut', 'dateFin', 'medecin', 'diagnostic', 'dateEmission', 'validite', 'etablissement', 'absence_id'];
     public function Absence()
     {
-        return $this->hasOne(Absence::class);
+        return $this->belongsTo(Absence::class);
     }
 }

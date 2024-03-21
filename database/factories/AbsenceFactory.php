@@ -28,6 +28,7 @@ class AbsenceFactory extends Factory
             'duree' => $this->faker->numberBetween(1, 30),
             'demande_absence_id' => $this->faker->randomElement($demande_absenceIds),
             'personne_id' => $randomPersonneId
+            
         ];
     }
 }

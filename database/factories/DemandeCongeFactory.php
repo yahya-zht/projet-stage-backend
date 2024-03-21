@@ -24,6 +24,11 @@ class DemandeCongeFactory extends Factory
             'dateDebut' => $this->faker->date(),
             'dateFin' => $this->faker->date(),
             'état' => $this->faker->randomElement(['Acceptable', 'REJETÉ', 'En Attendant']),
+            'duree' => $this->faker->numberBetween(1, 30),
+            'type' => $this->faker->randomElement([
+                'Congé', 'Congé Maladie', 'Congé Maternité', 'Congé sans solde', 'Congé de paternité',
+                'Congé de formation', 'Congé sabbatique', 'Congé pour mariage'
+            ]),
             'personne_id' => $this->faker->randomElement($personneIds),
 
         ];

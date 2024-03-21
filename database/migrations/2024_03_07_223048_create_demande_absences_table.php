@@ -16,6 +16,8 @@ return new class extends Migration
             $table->date("dateDemande");
             $table->date("dateDebut");
             $table->date("dateFin");
+            $table->string('type');
+            $table->integer('duree');
             $table->string("état")->default('En Attendant');
             $table->unsignedBigInteger('personne_id');
             $table->foreign('personne_id')->references('id')->on('personnes')->onDelete('cascade');
