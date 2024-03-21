@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use App\Models\DemandeAbsence;
 use App\Models\DemandeConge;
 use Illuminate\Http\Request;
 
@@ -38,15 +37,16 @@ class DemandeCongeController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(DemandeAbsence $DemandeAbsence)
+    public function show(string $id)
     {
-        return response()->json(["DemandeAbsence" => $DemandeAbsence]);
+        $DemandeConge = DemandeConge::with('personne.grade', 'personne.fonction')->find($id);
+        return response()->json(["DemandeConge" => $DemandeConge]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, DemandeAbsence $DemandeAbsence)
+    public function update(Request $request, DemandeConge $DemandeConge)
     {
         $request->validate([
             "dataDemande" => "required",
@@ -56,17 +56,17 @@ class DemandeCongeController extends Controller
             "personne_id" => "required",
             "conge_id" => "required"
         ]);
-        $DemandeAbsence->fill($request->all());
-        $DemandeAbsence->update();
-        return response()->json(["DemandeAbsence" => $DemandeAbsence, "message" => "Successfully updated"]);
+        $DemandeConge->fill($request->all());
+        $DemandeConge->update();
+        return response()->json(["DemandeConge" => $DemandeConge, "message" => "Successfully updated"]);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(DemandeAbsence $DemandeAbsence)
+    public function destroy(DemandeConge $DemandeConge)
     {
-        $DemandeAbsence->delete();
+        $DemandeConge->delete();
         return response()->json(["message" => "Deleted successfully"]);
     }
     public function ListDemandeCongeAdmin()
