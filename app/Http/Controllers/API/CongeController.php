@@ -74,8 +74,8 @@ class CongeController extends Controller
         $Conge = new Conge();
         $Conge->date_debut = $DemandeConge->dateDebut;
         $Conge->date_fin = $DemandeConge->dateFin;
-        // $Conge->duree = $DemandeConge->duree;
-        // $Conge->type = $DemandeConge->type;
+        $Conge->duree = $DemandeConge->duree;
+        $Conge->type = $DemandeConge->type;
         $Conge->personne_id = $DemandeConge->personne_id;
         $Conge->demande_conge_id = $DemandeConge->id;
         $Conge->save();

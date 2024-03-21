@@ -26,6 +26,8 @@ class DemandeAbsenceController extends Controller
             'dataDemande' => 'required',
             'dataDebut' => 'required',
             'dataFin' => 'required',
+            "type" => "required",
+            "duree" => "required",
             'personne_id' => 'required',
         ]);
         $DemandeAbsence = DemandeAbsence::create($request->all());

@@ -14,7 +14,7 @@ class DemandeCongeController extends Controller
      */
     public function index()
     {
-        $DemandeConge = DemandeConge::all();
+        $DemandeConge = DemandeConge::with('personne')->get();
         return response()->json(["DemandeConge" => $DemandeConge]);
     }
 
@@ -27,6 +27,8 @@ class DemandeCongeController extends Controller
             "dateDemande" => "required",
             "dateDebut" => "required",
             "dateFin" => "required",
+            "type" => "required",
+            "duree" => "required",
             "personne_id" => "required",
         ]);
         $DemandeConge = DemandeConge::create($request->all());

@@ -9,7 +9,7 @@ class DemandeAbsence extends Model
 {
     use HasFactory;
     use HasFactory;
-    protected $fillable = ['dateDemande', 'dateDebut', 'dateFin', 'état', 'personne_id'];
+    protected $fillable = ['dateDemande', 'dateDebut', 'dateFin', 'état', 'personne_id', 'type', 'duree'];
     public function Absence()
     {
         return $this->belongsTo(Absence::class);
