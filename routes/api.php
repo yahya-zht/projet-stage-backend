@@ -10,6 +10,7 @@ use App\Http\Controllers\API\FonctionController;
 use App\Http\Controllers\API\GradeController;
 use App\Http\Controllers\API\PersonneController;
 use App\Http\Controllers\API\ServiceController;
+use App\Models\DemandeConge;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -37,3 +38,6 @@ Route::resource('etablissement', EtablissementController::class);
 Route::resource('fonction', FonctionController::class);
 Route::resource('grade', GradeController::class);
 Route::resource('service', ServiceController::class);
+Route::get('admin/demande/Conge', [DemandeCongeController::class, 'ListDemandeCongeAdmin']);
+Route::post('conge/create/{id}', [CongeController::class, 'CreateConge']);
+Route::post('demande/reject/{id}', [DemandeCongeController::class, 'DemandeReject']);

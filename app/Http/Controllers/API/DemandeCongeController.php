@@ -67,4 +67,18 @@ class DemandeCongeController extends Controller
         $DemandeAbsence->delete();
         return response()->json(["message" => "Deleted successfully"]);
     }
+    public function ListDemandeCongeAdmin()
+    {
+        $demandesEnAttente = DemandeConge::where('état', 'En Attendant')
+            ->with('personne')
+            ->get();
+        return response()->json(["demandesEnAttente" => $demandesEnAttente]);
+    }
+    public function DemandeReject(string $id)
+    {
+        $DemandeConge = DemandeConge::find($id);
+        $DemandeConge->état = "REJETÉ";
+        $DemandeConge->update();
+        return response()->json(["DemandeConge" => $DemandeConge, "message" => "Successfully updated"]);
+    }
 }
