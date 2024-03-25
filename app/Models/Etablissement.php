@@ -15,6 +15,7 @@ class Etablissement extends Model
     }
     public function Service()
     {
-        return $this->belongsToMany(Service::class, 'etablissement_service', 'etablissement_id', 'service_id');
+        return $this->belongsToMany(Service::class, 'etablissements_services');
     }
+
 }

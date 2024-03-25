@@ -11,7 +11,7 @@ class Service extends Model
     protected $fillable = ['nom', 'responsable_id', 'nombre_employes'];
     public function Etablissement()
     {
-        return $this->belongsToMany(Etablissement::class, 'etablissement_service', 'service_id', 'etablissement_id');
+        return $this->belongsToMany(Etablissement::class, 'etablissements_services');
     }
     public function Personne()
     {

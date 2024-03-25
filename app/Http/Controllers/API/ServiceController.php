@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Models\EtablissementService;
 use App\Models\Service;
 use Illuminate\Http\Request;
 
@@ -28,6 +29,16 @@ class ServiceController extends Controller
             "nombre_employes" => "required",
         ]);
         $Service = Service::create($request->all());
+        if ($request->etablissements_id !== null) {
+            foreach ($request->etablissements_id as $etablissementId) {
+                $etablissementService = new EtablissementService([
+                    'etablissement_id' => $etablissementId,
+                    'service_id' => $Service->id,
+                ]);
+                $etablissementService->save();
+            }
+        }
+
         return response()->json(["Service" => $Service, "Message" => "Successfully created"]);
     }
 
@@ -36,6 +47,7 @@ class ServiceController extends Controller
      */
     public function show(Service $Service)
     {
+        $Service->load('etablissement');
         return response()->json(["Service" => $Service]);
     }
 
@@ -51,6 +63,11 @@ class ServiceController extends Controller
         ]);
         $Service->fill($request->all());
         $Service->update();
+        if ($request->etablissements_id) {
+            if ($request->has('etablissements_id')) {
+                $Service->Etablissement()->sync($request->etablissements_id);
+            }
+        }
         return response()->json(["Service" => $Service, "Message" => "Successfully updated"]);
     }
 

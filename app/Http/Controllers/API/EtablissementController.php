@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\Etablissement;
+use App\Models\EtablissementService;
 use Illuminate\Http\Request;
 
 class EtablissementController extends Controller
@@ -28,6 +29,16 @@ class EtablissementController extends Controller
             "directeur_id" => "required",
         ]);
         $Etablissement = Etablissement::create($request->all());
+        if ($request->services_id !== null) {
+            foreach ($request->services_id as $serviceId) {
+                $etablissementService = new EtablissementService([
+                    'service_id' => $serviceId,
+                    'etablissement_id' => $Etablissement->id,
+                ]);
+                $etablissementService->save();
+            }
+        }
+
         return response()->json(["Etablissement" => $Etablissement, "Message" => "Successfully created"]);
     }
 
@@ -36,6 +47,7 @@ class EtablissementController extends Controller
      */
     public function show(Etablissement $Etablissement)
     {
+        $Etablissement->load('service');
         return response()->json(["Etablissement" => $Etablissement]);
     }
 
@@ -51,6 +63,11 @@ class EtablissementController extends Controller
         ]);
         $Etablissement->fill($request->all());
         $Etablissement->update();
+        if ($request->services_id) {
+            if ($request->has('services_id')) {
+                $Etablissement->Service()->sync($request->services_id);
+            }
+        }
         return response()->json(["Etablissement" => $Etablissement, "Message" => "Successfully updated"]);
     }
 
