@@ -13,7 +13,7 @@ class Service extends Model
     {
         return $this->belongsToMany(Etablissement::class, 'etablissements_services');
     }
-    public function Personne()
+    public function Employees()
     {
         return $this->hasMany(Personne::class);
     }

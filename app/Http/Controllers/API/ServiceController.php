@@ -47,7 +47,7 @@ class ServiceController extends Controller
      */
     public function show(Service $Service)
     {
-        $Service->load('etablissement');
+        $Service->load('etablissement', 'employees.Grade', 'employees.Fonction', 'employees.Echelle', 'employees.Chef', 'employees.service', 'Responsable');
         return response()->json(["Service" => $Service]);
     }
 
