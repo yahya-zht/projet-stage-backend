@@ -14,7 +14,7 @@ class EtablissementController extends Controller
      */
     public function index()
     {
-        $Etablissements = Etablissement::with('Personne')->get();
+        $Etablissements = Etablissement::with('Directeur')->get();
         return response()->json(["Etablissements" => $Etablissements]);
     }
 
@@ -47,7 +47,7 @@ class EtablissementController extends Controller
      */
     public function show(Etablissement $Etablissement)
     {
-        $Etablissement->load('service');
+        $Etablissement->load('service.Responsable', 'Directeur');
         return response()->json(["Etablissement" => $Etablissement]);
     }
 

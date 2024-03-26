@@ -9,7 +9,7 @@ class Etablissement extends Model
 {
     use HasFactory;
     protected $fillable = ['nom', 'adresse', 'directeur_id'];
-    public function Personne()
+    public function Directeur()
     {
         return $this->belongsTo(Personne::class, 'directeur_id');
     }
