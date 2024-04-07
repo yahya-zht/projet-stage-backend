@@ -31,7 +31,12 @@ class DemandeAbsenceController extends Controller
             "duree" => "required",
             'personne_id' => 'required',
         ]);
-        $DemandeAbsence = DemandeAbsence::create($request->all());
+        // $randomString = strtoupper(str_shuffle('ABCDEFGHIJKLMNPOQRSTUVWXYZ0123456789'));
+        $randomString = strtoupper(str_shuffle('0123456789'));
+        $randomString = substr($randomString, 0, 5);
+        $Ref = "RF" . $randomString;
+        // $Ref = uniqid();
+        $DemandeAbsence = DemandeAbsence::create(array_merge($request->all(), ['Ref' => $Ref]));
         return response()->json(["DemandeAbsence" => $DemandeAbsence, "message" => "Successfully created"]);
     }
 

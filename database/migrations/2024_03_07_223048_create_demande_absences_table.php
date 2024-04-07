@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('demande_absences', function (Blueprint $table) {
             $table->id();
+            $table->string('Ref')->unique();
             $table->date("dateDemande");
             $table->date("dateDebut");
             $table->date("dateFin");

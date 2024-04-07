@@ -49,4 +49,8 @@ class Personne extends Model
     {
         return $this->hasMany(Personne::class);
     }
+    public function User()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

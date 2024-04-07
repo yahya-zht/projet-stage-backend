@@ -30,7 +30,10 @@ class DemandeCongeController extends Controller
             "duree" => "required",
             "personne_id" => "required",
         ]);
-        $DemandeConge = DemandeConge::create($request->all());
+        $randomString = strtoupper(str_shuffle('0123456789'));
+        $randomString = substr($randomString, 0, 5);
+        $Ref = "RF" . $randomString;
+        $DemandeConge = DemandeConge::create(array_merge($request->all(), ['Ref' => $Ref]));
         return response()->json(["DemandeConge" => $DemandeConge, "message" => "Successfully created"]);
     }
 

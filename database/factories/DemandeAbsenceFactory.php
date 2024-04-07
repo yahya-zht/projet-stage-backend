@@ -18,9 +18,8 @@ class DemandeAbsenceFactory extends Factory
     public function definition(): array
     {
         $personneIds = Personne::pluck('id')->toArray();
-
-
         return [
+            'Ref' => $this->faker->unique()->word(),
             'dateDemande' => $this->faker->date(),
             'dateDebut' => $this->faker->date(),
             'dateFin' => $this->faker->date(),

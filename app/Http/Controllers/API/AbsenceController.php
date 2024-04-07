@@ -13,7 +13,7 @@ class AbsenceController extends Controller
     public function index()
     {
         $Absences =
-            Absence::with('personne')->get();
+            Absence::with('personne', 'DemandeAbsence')->get();
         return response()->json(["Absences" => $Absences]);
     }
 
