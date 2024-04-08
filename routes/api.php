@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\API\AbsenceController;
+use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\CongeController;
 use App\Http\Controllers\API\DemandeAbsenceController;
 use App\Http\Controllers\API\DemandeCongeController;
@@ -27,6 +28,16 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
+});
+Route::group([
+    'middleware' => 'api',
+    // 'prefix' => 'auth'
+], function ($router) {
+    Route::post('login', [AuthController::class, 'login']);
+    Route::post('signup', [AuthController::class, 'signup']);
+    Route::post('logout', 'AuthController@logout');
+    Route::post('refresh', 'AuthController@refresh');
+    Route::post('me', 'AuthController@me');
 });
 Route::resource('personne', PersonneController::class);
 Route::resource('absence', AbsenceController::class);
