@@ -10,6 +10,7 @@ use App\Http\Controllers\API\EtablissementController;
 use App\Http\Controllers\API\FonctionController;
 use App\Http\Controllers\API\GradeController;
 use App\Http\Controllers\API\PersonneController;
+use App\Http\Controllers\API\ProfileController;
 use App\Http\Controllers\API\ServiceController;
 use App\Models\DemandeConge;
 use Illuminate\Http\Request;
@@ -32,26 +33,36 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::group([
     'middleware' => 'api',
     // 'prefix' => 'auth'
-], function ($router) {
+], function () {
     Route::post('login', [AuthController::class, 'login']);
     Route::post('signup', [AuthController::class, 'signup']);
     Route::post('logout', 'AuthController@logout');
     Route::post('refresh', 'AuthController@refresh');
     Route::post('me', 'AuthController@me');
 });
-Route::resource('personne', PersonneController::class);
-Route::resource('absence', AbsenceController::class);
-Route::resource('conge', CongeController::class);
-Route::resource('demande/Absence', DemandeAbsenceController::class);
-Route::resource('demande/Conge', DemandeCongeController::class);
-Route::resource('echelle', EchelleController::class);
-Route::resource('etablissement', EtablissementController::class);
-Route::resource('fonction', FonctionController::class);
-Route::resource('grade', GradeController::class);
-Route::resource('service', ServiceController::class);
-Route::get('admin/demande/Conge', [DemandeCongeController::class, 'ListDemandeCongeAdmin']);
-Route::post('conge/create/{id}', [CongeController::class, 'CreateConge']);
-Route::post('demande/conge/reject/{id}', [DemandeCongeController::class, 'DemandeReject']);
-Route::get('admin/demande/Absence', [DemandeAbsenceController::class, 'ListDemandeAbsenceAdmin']);
-Route::post('absence/create/{id}', [AbsenceController::class, 'CreateAbsence']);
-Route::post('demande/absence/reject/{id}', [DemandeAbsenceController::class, 'DemandeReject']);
+Route::middleware('auth:api')->group(function () {
+    Route::resource('personne', PersonneController::class);
+    Route::resource('profile', ProfileController::class);
+    Route::resource('absence', AbsenceController::class);
+    Route::resource('conge', CongeController::class);
+    Route::resource('demande/Absence', DemandeAbsenceController::class);
+    Route::resource('demande/Conge', DemandeCongeController::class);
+    Route::resource('echelle', EchelleController::class);
+    Route::resource('etablissement', EtablissementController::class);
+    Route::resource('fonction', FonctionController::class);
+    Route::resource('grade', GradeController::class);
+    Route::get('admin/demande/Conge', [DemandeCongeController::class, 'ListDemandeCongeAdmin']);
+    Route::post('conge/create/{id}', [CongeController::class, 'CreateConge']);
+    Route::post('demande/conge/reject/{id}', [DemandeCongeController::class, 'DemandeReject']);
+    Route::get('admin/demande/Absence', [DemandeAbsenceController::class, 'ListDemandeAbsenceAdmin']);
+    Route::post('absence/create/{id}', [AbsenceController::class, 'CreateAbsence']);
+    Route::post('demande/absence/reject/{id}', [DemandeAbsenceController::class, 'DemandeReject']);
+});
+Route::middleware('auth:api')->get('/user-profile', [ProfileController::class, 'getUserProfile']);
+Route::middleware(['auth', 'role:Directeur'])->group(function () {
+});
+Route::middleware(['auth', 'role:Employé'])->group(function () {
+});
+Route::middleware(['auth', 'role:Superviseur'])->group(function () {
+    Route::resource('service', ServiceController::class);
+});
