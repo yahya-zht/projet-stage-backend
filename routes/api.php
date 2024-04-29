@@ -42,7 +42,21 @@ Route::group([
 });
 Route::middleware('auth:api')->group(function () {
     Route::post('conge/create/{id}', [CongeController::class, 'CreateConge']);
-    Route::get('/user-profile', [ProfileController::class, 'getUserProfile']);
+    Route::get('/user-profile', [
+        ProfileController::class, 'getUserProfile'
+    ]);
+    Route::get('/conge/one', [ProfileController::class, 'conge']);
+    Route::get('/absence/one', [ProfileController::class, 'absence']);
+    Route::get('conge/responsable', [ProfileController::class, 'congeResponsable']);
+    Route::get('absence/responsable', [ProfileController::class, 'absenceResponsable']);
+    Route::get('conge/directeur', [ProfileController::class, 'congeDirecteur']);
+    Route::get('absence/directeur', [ProfileController::class, 'absenceDirecteur']);
+    Route::get('demande/conge/one', [ProfileController::class, 'demandeConge']);
+    Route::get('demande/absence/one', [ProfileController::class, 'demandeAbsence']);
+    Route::get('demande/conge/responsable', [ProfileController::class, 'demandeCongeResponsable']);
+    Route::get('demande/absence/responsable', [ProfileController::class, 'demandeAbsenceResponsable']);
+    Route::get('demande/conge/directeur', [ProfileController::class, 'demandeCongeDirecteur']);
+    Route::get('demande/absence/directeur', [ProfileController::class, 'demandeAbsenceDirecteur']);
 });
 
 Route::middleware(['auth', 'role:Directeur,Admin'])->group(function () {
