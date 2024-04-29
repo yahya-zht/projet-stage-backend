@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Personne extends Model
 {
     use HasFactory;
-    protected $fillable = ['nom', 'CIN', 'prenom', 'date_naissance', 'adresse', 'telephone', 'role', 'chef_id', 'grade_id', 'fonction_id', 'echelle_id', 'service_id'];
+    protected $fillable = ['nom', 'CIN', 'prenom', 'date_naissance', 'adresse', 'telephone', 'role', 'chef_id', 'grade_id', 'fonction_id', 'echelle_id', 'service_id', 'etablissement_id'];
     public function Absence()
     {
         return $this->hasMany(Absence::class);

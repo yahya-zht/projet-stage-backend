@@ -25,11 +25,13 @@ return new class extends Migration
             $table->unsignedBigInteger('fonction_id');
             $table->unsignedBigInteger('echelle_id');
             $table->unsignedBigInteger('service_id');
+            $table->unsignedBigInteger('etablissement_id');
             $table->foreign('chef_id')->references('id')->on('personnes')->onDelete('set null');
             $table->foreign('grade_id')->references('id')->on('grades')->onDelete('cascade');
             $table->foreign('fonction_id')->references('id')->on('fonctions')->onDelete('cascade');
             $table->foreign('echelle_id')->references('id')->on('echelles')->onDelete('cascade');
             $table->foreign('service_id')->references('id')->on('services')->onDelete('cascade');
+            $table->foreign('etablissement_id')->references('id')->on('etablissements')->onDelete('cascade');
             $table->timestamps();
         });
     }

@@ -14,7 +14,7 @@ class PersonneController extends Controller
     public function index()
     {
         // $personnes = Personne::all();
-        $personnes = Personne::with('fonction', 'grade', 'service', 'echelle', 'chef')->get();
+        $personnes = Personne::with('fonction', 'grade', 'service', 'echelle', 'chef', 'etablissement')->get();
         return response()->json(["Personnes" => $personnes]);
     }
 
@@ -36,6 +36,8 @@ class PersonneController extends Controller
             'fonction_id' => 'required',
             'echelle_id' => 'required',
             'service_id' => 'required',
+            'etablissement_id' => 'required',
+
         ]);
         $personne = Personne::create($request->all());
         return response()->json(["Personne" => $personne, "Message" => "Successfully created"]);
@@ -67,6 +69,7 @@ class PersonneController extends Controller
             'fonction_id' => 'required',
             'echelle_id' => 'required',
             'service_id' => 'required',
+            'etablissement_id' => 'required',
         ]);
         $Personne->fill($request->post());
         $Personne->update();

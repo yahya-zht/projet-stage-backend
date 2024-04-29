@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Echelle;
+use App\Models\Etablissement;
 use App\Models\Fonction;
 use App\Models\Grade;
 use App\Models\Personne;
@@ -34,6 +35,8 @@ class PersonneFactory extends Factory
         $randomServiceId = $faker->randomElement($ServiceIds);
         $PersonneIds = Personne::pluck('id')->toArray();
         $randomPersonneId = $faker->randomElement($PersonneIds);
+        $EtablissementIds = Etablissement::pluck('id')->toArray();
+        $randomEtablissementId = $faker->randomElement($EtablissementIds);
         // return [
         //     'nom' => $this->faker->lastName,
         //     'prenom' => $this->faker->firstName,
@@ -60,6 +63,7 @@ class PersonneFactory extends Factory
             'fonction_id' => $randomFonctionId,
             'echelle_id' => $randomEchelleId,
             'service_id' => $randomServiceId,
+            'etablissement_id' => $randomEtablissementId,
         ];
     }
 }

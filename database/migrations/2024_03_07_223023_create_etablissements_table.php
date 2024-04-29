@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('nom');
             $table->string('adresse');
             $table->unsignedBigInteger('directeur_id')->nullable();
-            $table->foreign('directeur_id')->references('id')->on('personnes')->onDelete('set null');
+            // $table->foreign('directeur_id')->references('id')->on('personnes')->onDelete('set null');
             $table->timestamps();
         });
     }

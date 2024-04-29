@@ -11,7 +11,7 @@ class ProfileController extends Controller
     public function getUserProfile(Request $request)
     {
         $user = $request->user();
-        $user->load('personne.grade', 'personne.fonction', 'personne.service', 'personne.echelle', 'personne.chef');
+        $user->load('personne.grade', 'personne.fonction', 'personne.service', 'personne.echelle', 'personne.chef', 'personne.etablissement');
         return response()->json(['user' => $user]);
     }
     public function index()

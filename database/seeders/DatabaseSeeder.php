@@ -11,7 +11,6 @@ use App\Models\DemandeAbsence;
 use App\Models\DemandeConge;
 use App\Models\Echelle;
 use App\Models\Etablissement;
-use App\Models\EtablissementService;
 use App\Models\Fonction;
 use App\Models\Grade;
 use App\Models\Personne;
@@ -30,6 +29,7 @@ class DatabaseSeeder extends Seeder
         Echelle::factory(20)->create();
         Grade::factory(20)->create();
         Service::factory(20)->create();
+        Etablissement::factory(20)->create();
         Personne::factory(20)->create();
         Etablissement::factory(20)->create();
         DemandeAbsence::factory(20)->create();
@@ -37,7 +37,6 @@ class DatabaseSeeder extends Seeder
         DemandeConge::factory(20)->create();
         Conge::factory(20)->create();
         CertificatMedical::factory(20)->create();
-        EtablissementService::factory(20)->create();
 
 
         // \App\Models\User::factory()->create([
