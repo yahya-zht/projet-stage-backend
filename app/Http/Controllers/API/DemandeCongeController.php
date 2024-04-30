@@ -28,12 +28,14 @@ class DemandeCongeController extends Controller
             "dateFin" => "required",
             "type" => "required",
             "duree" => "required",
-            "personne_id" => "required",
+            // "personne_id" => "required",
         ]);
+        $user = $request->user();
+        $idP = $user->personne_id;
         $randomString = strtoupper(str_shuffle('0123456789'));
         $randomString = substr($randomString, 0, 5);
         $Ref = "RF" . $randomString;
-        $DemandeConge = DemandeConge::create(array_merge($request->all(), ['Ref' => $Ref]));
+        $DemandeConge = DemandeConge::create(array_merge($request->all(), ['Ref' => $Ref, 'personne_id' => $idP]));
         return response()->json(["DemandeConge" => $DemandeConge, "message" => "Successfully created"]);
     }
 
@@ -56,10 +58,12 @@ class DemandeCongeController extends Controller
             "dataDebut" => "required",
             "dataFin" => "required",
             "état" => "required",
-            "personne_id" => "required",
+            // "personne_id" => "required",
             "conge_id" => "required"
         ]);
-        $DemandeConge->fill($request->all());
+        $user = $request->user();
+        $idP = $user->personne_id;
+        $DemandeConge->fill(array_merge($request->all(), ['personne_id' => $idP]));
         $DemandeConge->update();
         return response()->json(["DemandeConge" => $DemandeConge, "message" => "Successfully updated"]);
     }
@@ -72,12 +76,26 @@ class DemandeCongeController extends Controller
         $DemandeConge->delete();
         return response()->json(["message" => "Deleted successfully"]);
     }
-    public function ListDemandeCongeAdmin()
+    public function ListDemandeCongeAdmin(Request $request)
     {
-        $demandesEnAttente = DemandeConge::where('état', 'En Attendant')
-            ->with('personne')
-            ->get();
-        return response()->json(["demandesEnAttente" => $demandesEnAttente]);
+        $user = $request->user();
+        $user->load('personne.etablissement');
+        $r = $user->personne->role;
+        if ($r === "Directeur") {
+            $id = $user->personne->etablissement_id;
+            $congeDirecteur = DemandeConge::select('*', 'demande_conges.id as idC')
+                ->join('personnes', 'personnes.id', '=', 'demande_conges.personne_id')
+                ->where('personnes.etablissement_id', $id)
+                ->where('état', 'En Attendant')
+                ->get();
+            return response()->json(["demandesEnAttente" => $congeDirecteur]);
+        } elseif ($r === "Admin") {
+            $congeDirecteur = DemandeConge::select('*', 'demande_conges.id as idC')
+                ->where('état', 'En Attendant')->with('personne')
+                ->get();
+            return response()->json(["demandesEnAttente" => $congeDirecteur]);
+        }
+        return false;
     }
     public function DemandeReject(string $id)
     {

@@ -55,8 +55,9 @@ Route::middleware('auth:api')->group(function () {
     Route::get('demande/absence/one', [ProfileController::class, 'demandeAbsence']);
     Route::get('demande/conge/responsable', [ProfileController::class, 'demandeCongeResponsable']);
     Route::get('demande/absence/responsable', [ProfileController::class, 'demandeAbsenceResponsable']);
-    Route::get('demande/conge/directeur', [ProfileController::class, 'demandeCongeDirecteur']);
-    Route::get('demande/absence/directeur', [ProfileController::class, 'demandeAbsenceDirecteur']);
+    Route::get('employes', [ProfileController::class, 'Employes']);
+    // Route::get('demande/conge/directeur', [ProfileController::class, 'demandeCongeDirecteur']);
+    // Route::get('demande/absence/directeur', [ProfileController::class, 'demandeAbsenceDirecteur']);
 });
 
 Route::middleware(['auth', 'role:Directeur,Admin'])->group(function () {
@@ -72,7 +73,7 @@ Route::middleware(['auth', 'role:Admin'])->group(function () {
     Route::resource('fonction', FonctionController::class);
     Route::resource('grade', GradeController::class);
 });
-Route::middleware(['auth', 'role:Employé,Superviseur'])->group(function () {
+Route::middleware(['auth', 'role:Employé,Superviseur,Admin'])->group(function () {
     Route::resource('demande/Absence', DemandeAbsenceController::class);
     Route::resource('demande/Conge', DemandeCongeController::class);
 });

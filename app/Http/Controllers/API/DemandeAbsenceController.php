@@ -29,14 +29,16 @@ class DemandeAbsenceController extends Controller
             'dateFin' => 'required',
             "type" => "required",
             "duree" => "required",
-            'personne_id' => 'required',
+            // 'personne_id' => 'required',
         ]);
+        $user = $request->user();
+        $idP = $user->personne_id;
         // $randomString = strtoupper(str_shuffle('ABCDEFGHIJKLMNPOQRSTUVWXYZ0123456789'));
         $randomString = strtoupper(str_shuffle('0123456789'));
         $randomString = substr($randomString, 0, 5);
         $Ref = "RF" . $randomString;
         // $Ref = uniqid();
-        $DemandeAbsence = DemandeAbsence::create(array_merge($request->all(), ['Ref' => $Ref]));
+        $DemandeAbsence = DemandeAbsence::create(array_merge($request->all(), ['Ref' => $Ref, 'personne_id' => $idP]));
         return response()->json(["DemandeAbsence" => $DemandeAbsence, "message" => "Successfully created"]);
     }
 
@@ -59,9 +61,11 @@ class DemandeAbsenceController extends Controller
             'dataFin' => 'required',
             'état' => 'required',
             'absence_id' => 'required',
-            'personne_id' => 'required',
+            // 'personne_id' => 'required',
         ]);
-        $DemandeAbsence->fill($request->all());
+        $user = $request->user();
+        $idP = $user->personne_id;
+        $DemandeAbsence->fill(array_merge($request->all(), ['personne_id' => $idP]));
         $DemandeAbsence->update();
         return response()->json(["DemandeAbsence" => $DemandeAbsence, "message" => "Successfully updated"]);
     }
@@ -74,12 +78,26 @@ class DemandeAbsenceController extends Controller
         $DemandeAbsence->delete();
         return response()->json(["message" => "Deleted successfully"]);
     }
-    public function ListDemandeAbsenceAdmin()
+    public function ListDemandeAbsenceAdmin(Request $request)
     {
-        $demandesEnAttente = DemandeAbsence::where('état', 'En Attendant')
-            ->with('personne')
-            ->get();
-        return response()->json(["demandesEnAttente" => $demandesEnAttente]);
+        $user = $request->user();
+        $user->load('personne.etablissement');
+        $r = $user->personne->role;
+        if ($r === "Directeur") {
+            $id = $user->personne->etablissement_id;
+            $absenceDirecteur = DemandeAbsence::select('*', 'demande_absences.id as idA')
+                ->join('personnes', 'personnes.id', '=', 'demande_absences.personne_id')
+                ->where('personnes.etablissement_id', $id)
+                ->where('état', 'En Attendant')
+                ->get();
+            return response()->json(["demandesEnAttente" => $absenceDirecteur]);
+        } elseif ($r === "Admin") {
+            $absenceDirecteur = DemandeAbsence::select('*', 'demande_absences.id as idA')
+                ->where('état', 'En Attendant')->with('personne')
+                ->get();
+            return response()->json(["demandesEnAttente" => $absenceDirecteur]);
+        }
+        return false;
     }
 
     public function DemandeReject(string $id)

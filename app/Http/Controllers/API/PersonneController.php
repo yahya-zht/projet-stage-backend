@@ -48,7 +48,7 @@ class PersonneController extends Controller
      */
     public function show(Personne $Personne)
     {
-        $Personne->load('grade', 'fonction', 'service', 'echelle', 'chef');
+        $Personne->load('grade', 'fonction', 'service', 'echelle', 'chef', 'etablissement');
         return response()->json(["Personne" => $Personne]);
     }
 
