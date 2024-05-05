@@ -19,6 +19,8 @@ return new class extends Migration
             $table->date('date_naissance');
             $table->string('adresse');
             $table->string('telephone');
+            $table->integer('solde_congés')->default(0);
+            $table->integer('NBabsence')->default(0);
             $table->string('role');
             $table->unsignedBigInteger('chef_id')->nullable();
             $table->unsignedBigInteger('grade_id');

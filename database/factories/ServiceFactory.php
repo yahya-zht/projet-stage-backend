@@ -22,7 +22,6 @@ class ServiceFactory extends Factory
         return [
             'nom' => $this->faker->word,
             'responsable_id' => $randomPersonneId,
-            'nombre_employes' => $this->faker->numberBetween(1, 100),
         ];
     }
 }

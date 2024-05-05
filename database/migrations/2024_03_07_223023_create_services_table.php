@@ -17,7 +17,6 @@ return new class extends Migration
             $table->unsignedBigInteger('responsable_id')->nullable();
             // $table->foreign('responsable_id')->references('id')->on('personnes')->onDelete('set null');
             //ON MySQL => ALTER TABLE services ADD CONSTRAINT FK_services_personnes FOREIGN KEY (responsable_id) REFERENCES personnes(id) ON DELETE SET NULL;
-            $table->integer('nombre_employes');
             $table->timestamps();
         });
     }

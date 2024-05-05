@@ -24,6 +24,7 @@ class EtablissementServiceFactory extends Factory
         return [
             'etablissement_id' => $this->faker->randomElement($etablissementIds),
             'service_id' => $this->faker->randomElement($serviceIds),
+            'nombre_employes' => $this->faker->numberBetween(1, 100),
         ];
     }
 }

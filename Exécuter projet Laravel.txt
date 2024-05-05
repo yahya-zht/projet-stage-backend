@@ -6,4 +6,5 @@
 5- php artisan storage:link
 6- php artisan migrate
 7- Dans MySQL =>SQl =>ALTER TABLE services ADD CONSTRAINT FK_services_personnes FOREIGN KEY (responsable_id) REFERENCES personnes(id) ON DELETE SET NULL;
-8- php artisan db:seed  
+8- Dans MySQL =>SQl =>ALTER TABLE etablissements ADD CONSTRAINT FK_directeur FOREIGN KEY (directeur_id) REFERENCES personnes(id) ON DELETE SET NULL;
+9- php artisan db:seed  

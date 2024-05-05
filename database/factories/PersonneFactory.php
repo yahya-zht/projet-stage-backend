@@ -57,6 +57,8 @@ class PersonneFactory extends Factory
             'date_naissance' => $faker->date(),
             'adresse' => $faker->address,
             'telephone' => $faker->phoneNumber,
+            'solde_congés' => $faker->numberBetween(0, 28),
+            'NBabsence' => $faker->numberBetween(0, 50),
             'role' => $faker->randomElement(['Directeur', 'Employé', 'Superviseur']),
             'chef_id' => $randomPersonneId,
             'grade_id' => $randomGradeId,

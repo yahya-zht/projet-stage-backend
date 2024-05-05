@@ -1,0 +1,86 @@
+----1----
+
+DELIMITER |
+CREATE PROCEDURE Solde_congés()
+BEGIN
+DECLARE fin INT DEFAULT 0;
+DECLARE id INT;
+DECLARE A INT;
+DECLARE c INT;
+DECLARE d INT;
+DECLARE deff INT;
+DECLARE All_personnes CURSOR FOR SELECT p.id,ROUND(DATEDIFF(CURRENT_DATE, p.created_at)/365 ) FROM personnes AS p;
+DECLARE EXIT HANDLER FOR NOT FOUND SET fin =1;
+OPEN All_personnes;
+    WHILE fin != 1 DO
+        FETCH All_personnes INTO id,deff;
+				IF deff>0 THEN
+                	set A=deff*28;
+                    UPDATE `personnes` as p SET p.`solde_congés`= A WHERE p.id=id; 
+                END IF;
+    END WHILE;
+CLOSE All_personnes;
+END |
+DELIMITER ;
+
+-----2-----
+
+DELIMITER |
+CREATE TRIGGER congés_logique BEFORE INSERT ON conges FOR EACH ROW
+BEGIN
+    DECLARE solde INT;
+    SELECT solde_congés INTO solde FROM personnes WHERE id = NEW.personne_id;
+    IF NEW.duree > solde THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Erreur : La durée du congé est supérieure à la durée qui vous est accordée';
+    ELSE
+        UPDATE personnes SET solde_congés = solde - NEW.duree WHERE id = NEW.personne_id;
+    END IF;
+END |
+DELIMITER ;
+
+----------3---------
+
+DELIMITER |
+CREATE TRIGGER absence_logique BEFORE INSERT ON absences FOR EACH ROW
+BEGIN
+      UPDATE personnes SET personnes.NBabsence = personnes.NBabsence + NEW.duree WHERE personnes.id = NEW.personne_id;
+END |
+DELIMITER ;
+
+----------4----------
+DELIMITER |
+CREATE PROCEDURE remplir_NbEmployees()
+BEGIN
+DECLARE fin INT DEFAULT 0;
+DECLARE idE INT;
+DECLARE idS INT;
+DECLARE NB INT;
+DECLARE All_etablissements_services CURSOR FOR SELECT etablissement_id,service_id FROM etablissements_services;
+DECLARE EXIT HANDLER FOR NOT FOUND SET fin =1;
+OPEN All_etablissements_services;
+    WHILE fin != 1 DO
+        FETCH All_etablissements_services INTO idE,idS;
+            SELECT COUNT(*) INTO NB  FROM `personnes` WHERE service_id=idS and etablissement_id=idE;
+            UPDATE `etablissements_services` SET `nombre_employes`= NB WHERE `etablissements_services`.`etablissement_id`=idE AND `etablissements_services`.`service_id`=idS;
+    END WHILE;
+CLOSE All_etablissements_services;
+END |
+DELIMITER ;
+
+-----------5----------
+
+DELIMITER |
+CREATE TRIGGER Add_Employée BEFORE INSERT ON personnes FOR EACH ROW
+BEGIN
+	DECLARE IDN INT DEFAULT 0;
+    SELECT COUNT(id) INTO IDN FROM etablissements_services WHERE etablissement_id=NEW.etablissement_id AND service_id=NEW.service_id;
+    IF  IDN <=0  THEN 
+    	SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT='Erreur : Service pas dans l Etablissement';
+    ELSE
+    	UPDATE `etablissements_services` SET `nombre_employes`=`nombre_employes`+1  WHERE `etablissements_services`.`id`=ID;
+    END IF;
+END |
+DELIMITER ;
+
+
+-----------6---------

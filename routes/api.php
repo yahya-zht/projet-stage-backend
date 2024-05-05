@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\API\AbsenceController;
+use App\Http\Controllers\API\AccueilController;
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\CongeController;
 use App\Http\Controllers\API\DemandeAbsenceController;
@@ -45,6 +46,7 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/user-profile', [
         ProfileController::class, 'getUserProfile'
     ]);
+    Route::resource('demande/Conge', DemandeCongeController::class);
     Route::get('/conge/one', [ProfileController::class, 'conge']);
     Route::get('/absence/one', [ProfileController::class, 'absence']);
     Route::get('conge/responsable', [ProfileController::class, 'congeResponsable']);
@@ -56,6 +58,10 @@ Route::middleware('auth:api')->group(function () {
     Route::get('demande/conge/responsable', [ProfileController::class, 'demandeCongeResponsable']);
     Route::get('demande/absence/responsable', [ProfileController::class, 'demandeAbsenceResponsable']);
     Route::get('employes', [ProfileController::class, 'Employes']);
+    Route::get('accueil/employee', [AccueilController::class, 'employee']);
+    Route::get('accueil/directeur', [AccueilController::class, 'Directeur']);
+    Route::get('accueil/admin', [AccueilController::class, 'Admin']);
+    Route::get('service/directeur', [ServiceController::class, 'getServicesForEtablissement']);
     // Route::get('demande/conge/directeur', [ProfileController::class, 'demandeCongeDirecteur']);
     // Route::get('demande/absence/directeur', [ProfileController::class, 'demandeAbsenceDirecteur']);
 });
@@ -75,7 +81,6 @@ Route::middleware(['auth', 'role:Admin'])->group(function () {
 });
 Route::middleware(['auth', 'role:Employé,Superviseur,Admin'])->group(function () {
     Route::resource('demande/Absence', DemandeAbsenceController::class);
-    Route::resource('demande/Conge', DemandeCongeController::class);
 });
 Route::middleware(['auth', 'role:Superviseur,Directeur,Admin'])->group(function () {
     Route::resource('personne', PersonneController::class);

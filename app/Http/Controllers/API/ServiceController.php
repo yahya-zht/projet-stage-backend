@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\EtablissementService;
 use App\Models\Service;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ServiceController extends Controller
 {
@@ -78,5 +79,27 @@ class ServiceController extends Controller
     {
         $Service->delete();
         return response()->json(["Message" => "Successfully deleted"]);
+    }
+    public function getServicesForEtablissement(Request $request)
+    {
+        $user = $request->user();
+        $user->load('personne');
+        $idE = $user->personne->etablissement_id;
+        // $services = Service::whereHas('Etablissement', function ($query) use ($idE) {
+        //     $query->where('etablissement_id', $idE);
+        // })
+        //     ->with('Etablissement')
+        //     ->get();
+        // $services = DB::table('etablissements_services')
+        //     ->join('services', 'etablissements_services.service_id', '=', 'services.id')
+        //     ->where('etablissements_services.etablissement_id', $idE)
+        //     ->select('services.*')
+        //     ->get();
+        $services = Service::select('services.*', 'ES.nombre_employes')
+            ->join('etablissements_services as ES', 'services.id', '=', 'ES.service_id')
+            ->join('etablissements AS e', 'e.id', '=', 'ES.etablissement_id')
+            ->where('ES.etablissement_id', $idE)->with('Responsable')
+            ->get();
+        return response()->json(["Services" => $services]);
     }
 }
