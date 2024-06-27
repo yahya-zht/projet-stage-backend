@@ -28,7 +28,6 @@ class DemandeCongeController extends Controller
             "dateFin" => "required",
             "type" => "required",
             "duree" => "required",
-            // "personne_id" => "required",
         ]);
         $user = $request->user();
         $idP = $user->personne_id;
@@ -71,8 +70,9 @@ class DemandeCongeController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(DemandeConge $DemandeConge)
+    public function destroy(string $id)
     {
+        $DemandeConge = DemandeConge::find($id);
         $DemandeConge->delete();
         return response()->json(["message" => "Deleted successfully"]);
     }

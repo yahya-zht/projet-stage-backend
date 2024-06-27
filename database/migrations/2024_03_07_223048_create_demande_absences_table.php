@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('type');
             $table->integer('duree');
             $table->string("état")->default('En Attendant');
+            $table->string('image')->nullable();
             $table->unsignedBigInteger('personne_id');
             $table->foreign('personne_id')->references('id')->on('personnes')->onDelete('cascade');
             $table->timestamps();

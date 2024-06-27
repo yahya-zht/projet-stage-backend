@@ -29,16 +29,31 @@ class DemandeAbsenceController extends Controller
             'dateFin' => 'required',
             "type" => "required",
             "duree" => "required",
-            // 'personne_id' => 'required',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
+        // $user = $request->user();
+        // $idP = $user->personne_id;
+        // $randomString = strtoupper(str_shuffle('0123456789'));
+        // $randomString = substr($randomString, 0, 5);
+        // $Ref = "RF" . $randomString;
+        // $DemandeAbsence = DemandeAbsence::create(array_merge($request->all(), ['Ref' => $Ref, 'personne_id' => $idP]));
         $user = $request->user();
         $idP = $user->personne_id;
-        // $randomString = strtoupper(str_shuffle('ABCDEFGHIJKLMNPOQRSTUVWXYZ0123456789'));
         $randomString = strtoupper(str_shuffle('0123456789'));
         $randomString = substr($randomString, 0, 5);
         $Ref = "RF" . $randomString;
-        // $Ref = uniqid();
-        $DemandeAbsence = DemandeAbsence::create(array_merge($request->all(), ['Ref' => $Ref, 'personne_id' => $idP]));
+
+        $data = $request->all();
+        $data['Ref'] = $Ref;
+        $data['personne_id'] = $idP;
+
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imageName = time() . '.' . $image->getClientOriginalExtension();
+            $imagePath = $image->storeAs('uploads/images', $imageName, 'public');
+            $data['image'] = $imagePath;
+        }
+        $DemandeAbsence = DemandeAbsence::create($data);
         return response()->json(["DemandeAbsence" => $DemandeAbsence, "message" => "Successfully created"]);
     }
 
@@ -73,8 +88,9 @@ class DemandeAbsenceController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(DemandeAbsence $DemandeAbsence)
+    public function destroy(string $id)
     {
+        $DemandeAbsence = DemandeAbsence::find($id);
         $DemandeAbsence->delete();
         return response()->json(["message" => "Deleted successfully"]);
     }

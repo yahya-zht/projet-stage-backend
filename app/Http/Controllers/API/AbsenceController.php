@@ -68,7 +68,7 @@ class AbsenceController extends Controller
     }
     public function CreateAbsence(string $id)
     {
-        
+
         $DemandeAbsence = DemandeAbsence::find($id);
         $Absence = new Absence();
         $Absence->date_debut = $DemandeAbsence->dateDebut;
