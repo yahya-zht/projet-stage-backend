@@ -22,11 +22,11 @@ class AccueilController extends Controller
         $user = $request->user();
         $id = $user->personne_id;
 
-        $NbConges = Personne::select('personnes.solde_congés', DB::raw('SUM(conges.duree) as SUMDayInYear'))
+        $NbConges = Personne::select('personnes.solde_conge', DB::raw('SUM(conges.duree) as SUMDayInYear'))
             ->join('conges', 'personnes.id', '=', 'conges.personne_id')
             ->whereYear('conges.date_debut', now()->year)
             ->where('personnes.id', $id)
-            ->groupBy('personnes.solde_congés')
+            ->groupBy('personnes.solde_conge')
             ->get();
         $NbAbsence = Absence::whereYear('date_debut', now()->year)
             ->where('personne_id', $id)
@@ -100,18 +100,18 @@ class AccueilController extends Controller
 
         $congesCurrentMonthCount = Conge::join('personnes as p', 'p.id', '=', 'conges.personne_id')
             ->where('p.etablissement_id', $IdET)
-            ->whereYear('conges.date_debut', $currentYear)
-            ->whereMonth('conges.date_debut', $currentMonth)
-            ->orWhereYear('conges.date_fin', $currentYear)
-            ->whereMonth('conges.date_fin', $currentMonth)
+            ->whereYear('conges.date_debut', '<=', $currentYear)
+            ->whereMonth('conges.date_debut', '<=', $currentMonth)
+            ->WhereYear('conges.date_fin', '>=', $currentYear)
+            ->whereMonth('conges.date_fin', '>=', $currentMonth)
             ->count();
 
         $absencesCurrentMonthCount = Absence::join('personnes as p', 'p.id', '=', 'absences.personne_id')
             ->where('p.etablissement_id', $IdET)
-            ->whereYear('absences.date_debut', $currentYear)
-            ->whereMonth('absences.date_debut', $currentMonth)
-            ->orWhereYear('absences.date_fin', $currentYear)
-            ->whereMonth('absences.date_fin', $currentMonth)
+            ->whereYear('absences.date_debut', '<=', $currentYear)
+            ->whereMonth('absences.date_debut', '<=', $currentMonth)
+            ->orWhereYear('absences.date_fin', '>=', $currentYear)
+            ->whereMonth('absences.date_fin', '>=', $currentMonth)
             ->count();
 
         $demandeAbsencesCount = DemandeAbsence::join('personnes as p', 'p.id', '=', 'demande_absences.personne_id')
@@ -238,16 +238,23 @@ class AccueilController extends Controller
         $currentMonth = Carbon::now()->month;
 
 
-        $congesCurrentMonthCount = Conge::whereYear('conges.date_debut', $currentYear)
-            ->whereMonth('conges.date_debut', $currentMonth)
-            ->orWhereYear('conges.date_fin', $currentYear)
-            ->whereMonth('conges.date_fin', $currentMonth)
+        $congesCurrentMonthCount = Conge::whereYear('conges.date_debut', '<=', $currentYear)
+            ->whereMonth('conges.date_debut', '<=', $currentMonth)
+            ->WhereYear('conges.date_fin', '>=', $currentYear)
+            ->whereMonth('conges.date_fin', '>=', $currentMonth)
             ->count();
 
-        $absencesCurrentMonthCount = Absence::whereYear('absences.date_debut', $currentYear)
-            ->whereMonth('absences.date_debut', $currentMonth)
-            ->orWhereYear('absences.date_fin', $currentYear)
-            ->whereMonth('absences.date_fin', $currentMonth)
+        $absencesCurrentMonthCount = Absence::whereYear('absences.date_debut', '<=', $currentYear)
+            ->whereMonth('absences.date_debut', '<=', $currentMonth)
+            ->WhereYear('absences.date_fin', '>=', $currentYear)
+            ->whereMonth('absences.date_fin', '>=', $currentMonth)
+            ->count();
+        $congesCurrentYearCount = Conge::whereYear('conges.date_debut', '<=', $currentYear)
+            ->WhereYear('conges.date_fin', '>=', $currentYear)
+            ->count();
+
+        $absencesCurrentYearCount = Absence::whereYear('absences.date_debut', '<=', $currentYear)
+            ->WhereYear('absences.date_fin', '>=', $currentYear)
             ->count();
 
         $demandeAbsencesCount = DemandeAbsence::whereYear('dateDemande', $currentYear)
@@ -311,10 +318,12 @@ class AccueilController extends Controller
             'personnes_count' => $personnesCount,
             'services_count' => $servicesCount,
             'etablissements_count' => $etablissementsCount,
-            'absences_today_count' => $absencesTodayCount,
             'conges_today_count' => $congesTodayCount,
             'conges_current_month_count' => $congesCurrentMonthCount,
+            'conges_current_year_count' => $congesCurrentYearCount,
+            'absences_today_count' => $absencesTodayCount,
             'absences_current_month_count' => $absencesCurrentMonthCount,
+            'absences_current_year_count' => $absencesCurrentYearCount,
             'demande_absences_count' => $demandeAbsencesCount,
             'demande_conges_count' => $demandeCongesCount,
             'demande_absences_today_count' => $demandeAbsencesTodayCount,

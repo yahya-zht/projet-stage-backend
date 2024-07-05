@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\Personne;
+use App\Models\Service;
 use Illuminate\Http\Request;
 
 class PersonneController extends Controller
@@ -23,22 +24,29 @@ class PersonneController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'nom' => 'required',
-            'CIN' => 'required',
-            'prenom' => 'required',
-            'date_naissance' => 'required',
-            'adresse' => 'required',
-            'telephone' => 'required',
-            'role' => 'required',
-            // 'chef_id' => 'required',
-            'grade_id' => 'required',
-            'fonction_id' => 'required',
-            'echelle_id' => 'required',
-            'service_id' => 'required',
-            'etablissement_id' => 'required',
+        $request->validate(
+            [
+                'nom' => 'required',
+                'CIN' => 'required|unique:personnes,CIN',
+                'prenom' => 'required',
+                'date_naissance' => 'required',
+                'adresse' => 'required',
+                'telephone' => 'required',
+                'role' => 'required',
+                // 'chef_id' => 'required',
+                'grade_id' => 'required',
+                'fonction_id' => 'required',
+                'echelle_id' => 'required',
+                'service_id' => 'required',
+                'etablissement_id' => 'required',
 
-        ]);
+            ],
+            [
+                "CIN|unique" => "CIN UNIQUE",
+            ]
+        );
+        $ResponsableService = Service::find($request->post("service_id"));
+        $request->merge(['chef_id' => $ResponsableService->responsable_id]);
         $personne = Personne::create($request->all());
         return response()->json(["Personne" => $personne, "Message" => "Successfully created"]);
     }

@@ -84,3 +84,36 @@ DELIMITER ;
 
 
 -----------6---------
+
+DELIMITER |
+CREATE TRIGGER ResponsableService BEFORE INSERT on personnes FOR EACH ROW
+BEGIN
+    IF NEW.role ="Superviseur" THEN
+    	UPDATE `services` SET `responsable_id`=NEW.id WHERE services.id=New.service_id;
+    END IF;
+END |
+DELIMITER;
+
+
+-------------7------------
+DELIMITER |
+CREATE TRIGGER SousDirecteur AFTER INSERT on personnes FOR EACH ROW
+BEGIN
+    IF NEW.role ="Directeur" THEN
+        UPDATE `etablissements` SET`directeur_id`=NEW.id WHERE etablissements.id=New.etablissement_id;
+    END IF;
+END |
+DELIMITER;
+-------------8--------------
+DELIMITER |
+CREATE TRIGGER ResponsableEmployers AFTER INSERT on personnes FOR EACH ROW
+BEGIN
+	DECLARE N INT;
+	IF NEW.role ="Employé" THEN
+    	SELECT `responsable_id` INTO N FROM `services` WHERE id=New.service_id;
+        UPDATE `personnes` SET`chef_id`=N WHERE personnes.id=New.id;
+    END IF;
+END |
+DELIMITER;
+
+-------------8--------------

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Etablissement;
 use App\Models\EtablissementService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class EtablissementController extends Controller
 {
@@ -78,5 +79,20 @@ class EtablissementController extends Controller
     {
         $Etablissement->delete();
         return response()->json(["Message" => "Successfully deleted"]);
+    }
+    // public function EtablissementService(string $service_id)
+    // {
+    //     $Etablissements = DB::table('etablissements')->json('etablissements_services', 'etablissements_services.etablissement_id', '=', 'Etablissements.id')
+    //         ->where('etablissements_services.service_id', '=', $service_id)->get();
+    //     return response()->json(["Etablissements" => $Etablissements]);
+    // }
+    public function EtablissementService(string $service_id)
+    {
+        $Etablissements = DB::table('etablissements')
+            ->join('etablissements_services', 'etablissements_services.etablissement_id', '=', 'etablissements.id')
+            ->where('etablissements_services.service_id', '=', $service_id)
+            ->get(['etablissements.*']);
+
+        return response()->json(["Etablissements" => $Etablissements]);
     }
 }

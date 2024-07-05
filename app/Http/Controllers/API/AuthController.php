@@ -31,7 +31,7 @@ class AuthController extends Controller
         $credentials = request(['email', 'password']);
 
         if (!$token = auth()->attempt($credentials)) {
-            return response()->json(['error' => 'Unauthorized'], 401);
+            return response()->json(['error' => 'Email ou mot de passe incorrect'], 401);
         }
 
         return $this->respondWithToken($token);
@@ -41,7 +41,7 @@ class AuthController extends Controller
         $CIN = $request->CIN;
         $id_personne = Personne::where('CIN', $CIN)->value('id');
         User::create(array_merge($request->all(), ['personne_id' => $id_personne]));
-        return $this->login();
+        return response()->json(["success" => "Successfully created a new compte"]);
     }
 
     /**
